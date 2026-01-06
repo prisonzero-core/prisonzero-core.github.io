@@ -5,8 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
     <title>PrisonZero | MadPunks Graveyard & Archives</title>
-    <meta name="description" content="PrisonZero is the graveyard for MadPunks. 未消化のドメイン、失敗したプロジェクト、思考の残骸を供養し、AIによって再構築されるのを待つアーカイブ領域。">
-    <meta name="keywords" content="MadPunks, PrisonZero, Granum, Asfact, エンジニア, 失敗ログ, アーカイブ">
+    
+    <meta name="description" content="PrisonZero(プリズムゼロ)は、MadPunks(マッドパンクス)の未完成プロジェクトや思考の残骸等の野面積み。いつか再構築される時を待つアーカイブ領域として。Stay Hungry, Stay Mad & Punk. 壊すべき(Punk)は自分たちの古い価値観。今日を真剣に夢中(Mad)に生きる。">
+    
+    <meta name="keywords" content="MadPunks, PrisonZero, Granum, Asfact, 野面積み, エンジニア, アーカイブ">
+
 	<link rel="icon" sizes="48x48" href="/favicon.ico">
 	<link rel="icon" href="/icon.svg" type="image/svg+xml">
 	<link rel="apple-touch-icon" href="/apple-touch-icon.png">
@@ -19,14 +22,18 @@
 
 	<link rel="manifest" href="/manifest.webmanifest">
 
-
     <style>
-        /* Base Reset & Variables (Inherited from Prism) */
+        /* Base Reset & Variables */
         :root {
-            --bg-color: #050505; /* Deep Black, slightly darker/colder */
-            --text-color: #cccccc; /* Stone White, slightly dimmer */
-            --accent-color: #4a4a4a;  /* Darker Grey for Prison walls */
-            --highlight-color: #888;
+            --bg-color: #050505; /* Deep Black */
+            --text-color: #cccccc; /* Stone White */
+            --accent-color: #4a4a4a; 
+            
+            /* Key Brand Colors */
+            --mad-red: #ff3333;
+            --granum-green: #00ff41;
+            --prison-gray: #37474F;
+
             --font-main: 'Courier New', Courier, monospace; 
         }
 
@@ -48,7 +55,7 @@
 
         /* Container */
         .container {
-            max-width: 700px;
+            max-width: 800px;
             width: 100%;
             text-align: left;
             opacity: 0;
@@ -81,7 +88,7 @@
             letter-spacing: 3px;
         }
 
-        /* Philosophy / Graveyard Text */
+        /* Philosophy Text */
         .philosophy {
             font-size: 1.0rem;
             margin-bottom: 4rem;
@@ -91,7 +98,7 @@
         }
 
         .philosophy p {
-            margin-bottom: 1.5rem;
+            margin-bottom: 2rem;
         }
 
         .en-trans {
@@ -100,6 +107,12 @@
             display: block;
             margin-top: 0.2rem;
             font-style: italic;
+        }
+
+        /* Highlight specific keywords */
+        .highlight {
+            color: #fff;
+            border-bottom: 1px dotted #666;
         }
 
         /* Status / System Log */
@@ -117,51 +130,95 @@
             color: #555;
         }
 
-        /* Footer / MadPunks Logo */
+        /* Footer Area */
         footer {
             margin-top: 6rem;
             opacity: 0;
-            animation: fadeIn 4s ease-out forwards 1s; /* Delay appearance */
-            text-align: center;
+            animation: fadeIn 4s ease-out forwards 1s;
             width: 100%;
+            border-top: 1px solid #111;
+            padding-top: 3rem;
+        }
+
+        /* Footer Links Layout */
+        .footer-links {
             display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 2rem;
+            justify-content: center;
+            align-items: flex-start;
+            gap: 4rem;
+            flex-wrap: wrap;
         }
 
         .brand-link {
             text-decoration: none;
-            display: inline-block;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
             transition: opacity 0.3s;
+            min-width: 120px;
         }
 
         .brand-link:hover {
-            opacity: 0.7;
+            opacity: 1.0; /* Fully opaque on hover to show color clearly */
+        }
+        
+        .brand-link:hover .logo-text {
+            box-shadow: 0 0 10px rgba(255,255,255,0.1);
         }
 
-        /* CSS implementation of a simple textual logo style */
+        /* Logo Text Style Base */
         .logo-text {
-            font-family: 'Arial Black', 'Helvetica Neue', sans-serif; /* Stronger font for logo */
-            font-size: 1.2rem;
-            color: #fff;
+            font-family: 'Arial Black', 'Helvetica Neue', sans-serif;
+            font-size: 1.0rem;
+            color: #fff; /* Default fallback */
             letter-spacing: -1px;
-            border: 2px solid #fff;
+            border: 2px solid #fff; /* Default fallback */
             padding: 5px 10px;
             background: transparent;
+            transition: all 0.3s ease;
         }
 
         .logo-sub {
             display: block;
-            font-size: 0.6rem;
+            font-size: 0.5rem;
             color: #666;
             margin-top: 8px;
             letter-spacing: 2px;
             font-family: var(--font-main);
+            text-transform: uppercase;
+            transition: color 0.3s ease;
+        }
+
+        /* --- Brand Specific Colors --- */
+        
+        /* MadPunks (Red) */
+        .brand-link.mad-red .logo-text {
+            color: var(--mad-red);
+            border-color: var(--mad-red);
+            text-shadow: 0 0 5px rgba(255, 51, 51, 0.4);
+            box-shadow: 0 0 5px rgba(255, 51, 51, 0.1);
+        }
+        .brand-link.mad-red .logo-sub {
+            color: var(--mad-red);
+            opacity: 0.8;
+        }
+
+        /* Granum (Green) */
+        .brand-link.granum-green .logo-text {
+            color: var(--granum-green);
+            border-color: var(--granum-green);
+            text-shadow: 0 0 5px rgba(0, 255, 65, 0.4);
+            box-shadow: 0 0 5px rgba(0, 255, 65, 0.1);
+        }
+        .brand-link.granum-green .logo-sub {
+            color: var(--granum-green);
+            opacity: 0.8;
         }
 
         /* Copyright Style */
         .copyright {
+            margin-top: 3rem;
+            text-align: center;
             font-size: 0.6rem;
             color: #333;
             font-family: var(--font-main);
@@ -180,6 +237,12 @@
             h2 { font-size: 0.9rem; }
             .philosophy { font-size: 0.9rem; padding-left: 15px; }
             .header-block { margin-bottom: 3rem; }
+            
+            .footer-links {
+                gap: 2rem;
+                flex-direction: column;
+                align-items: center;
+            }
         }
     </style>
 </head>
@@ -194,32 +257,45 @@
         
         <div class="philosophy">
             <p>
-                ここは様々なドメインが眠る場所。<br>
-                <span class="en-trans">Here lie the unconsumed domains.</span>
+                PrisonZero(プリズムゼロ)は、<br>
+                MadPunksの未完成プロジェクトや思考の残骸等の<span class="highlight">野面積み</span>。<br>
+                <span class="en-trans">Piling unshaped stones of unfinished projects and debris of thought.</span>
             </p>
+            
             <p>
-                自然に積み上げる。<br>
-                <span class="en-trans">We stack nature.</span>
+                いつか再構築される時を待つアーカイブ領域として。<br>
+                <span class="en-trans">As an archive waiting for the time of reconstruction.</span>
             </p>
+
             <p>
-                それぞれの個性を紐解きながら、進む。<br>
-                <span class="en-trans">Unraveling every unique trait, we advance with certainty.</span>
+                Stay Hungry, Stay Mad & Punk.<br>
+                壊すべき(Punk)は自分たちの古い価値観。<br>
+                今日を真剣に夢中(Mad)に生きる。<br>
+                <span class="en-trans">Break old values. Live today seriously and insanely.</span>
             </p>
         </div>
 
         <div class="status-line">
             &gt; SYSTEM: OFFLINE (ARCHIVE_MODE)<br>
-            &gt; TARGET: UNUSED_RESOURCES<br>
+            &gt; TARGET: UNUSED_RESOURCES (Nozura)<br>
             &gt; NEXT_ACTION: AI_LOG_GENERATION (PENDING)<br>
             &gt; REF: MAD_PUNKS_ECOSYSTEM<br>
             <span>&gt; ...waiting for the signal.</span>
         </div>
 
         <footer>
-            <a href="https://madpunks.com/" class="brand-link" target="_blank">
-                <div class="logo-text">MadPunks</div>
-                <span class="logo-sub">OFFICIAL ARCHIVE</span>
-            </a>
+            <div class="footer-links">
+                <a href="https://madpunks.com/" class="brand-link mad-red" target="_blank">
+                    <div class="logo-text">MadPunks</div>
+                    <span class="logo-sub">Main Brand</span>
+                </a>
+
+                <a href="https://granum.online/" class="brand-link granum-green" target="_blank">
+                    <div class="logo-text">Granum</div>
+                    <span class="logo-sub">System / Apps</span>
+                </a>
+
+            </div>
             
             <div class="copyright">
                 &copy; 2026 PrisonZero. All rights reserved.
